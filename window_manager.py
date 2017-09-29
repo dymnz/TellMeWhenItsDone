@@ -73,7 +73,4 @@ class window_manager:
 		mfcDC.DeleteDC()
 		win32gui.ReleaseDC(self._hwnd, hwndDC)
 
-		# Workaround - move the window back to original position
-		win32gui.SetWindowPos(self._hwnd, 1, 0, 0, 0, 0, 1)
-		#win32gui.SetWindowPos(self._hwnd, 1, self.origin_top, self.origin_left, 0, 0, 1)  
 		return (im, bmpinfo['bmWidth'], bmpinfo['bmHeight'])
