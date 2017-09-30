@@ -1,5 +1,6 @@
 # https://stackoverflow.com/questions/19695214/python-screenshot-of-inactive-window-printwindow-win32gui/24352388#24352388
 import win32gui
+import win32com.client
 import win32ui
 import winsound
 import re
@@ -19,9 +20,16 @@ class window_manager:
 
 	def bring_window_to_front(self, window_name):     
 		win32gui.EnumWindows(self._enumHandler, window_name)    
-		win32gui.SetWindowPos(self._hwnd, 0, 0, 0, 0, 0, 1)  
+		win32gui.SetWindowPos(self._hwnd, 0, self.origin_left, self.origin_top, 0, 0, 1)	
 		win32gui.ShowWindow(self._hwnd, 3)
+		
+		# Weird workaround: 
+		# https://stackoverflow.com/questions/14295337/win32gui-setactivewindow-error-the-specified-procedure-could-not-be-found
+		shell = win32com.client.Dispatch("WScript.Shell")
+		shell.SendKeys('%')
+
 		win32gui.SetForegroundWindow(self._hwnd)
+		
 
 	def minimize_window(self, window_name):
 		win32gui.EnumWindows(self._enumHandler, window_name)   
@@ -40,11 +48,12 @@ class window_manager:
 		left, top, right, bot = win32gui.GetWindowRect(self._hwnd)
 		w = right - left
 		h = bot - top
-
+		print(left, top, right, bot)
 		self.origin_left = left
 		self.origin_top = top
 		# Workaround - activate the window at the bottom
-		win32gui.SetWindowPos(self._hwnd, 1, 0, 0, 0, 0, 1)		
+		#win32gui.SetWindowPos(self._hwnd, 1, 0, 0, 0, 0, 1)		
+		win32gui.SetWindowPos(self._hwnd, 1, self.origin_left, self.origin_top, 0, 0, 1)	
 
 		hwndDC = win32gui.GetWindowDC(self._hwnd)
 		mfcDC  = win32ui.CreateDCFromHandle(hwndDC)

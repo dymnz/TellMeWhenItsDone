@@ -4,10 +4,7 @@ import time
 from window_manager import window_manager
 
 def translate_to_center_cord(x, y, w, h):
-	# For some reason the y-cord needs to be compensated
-	#return (x + w/2 , y + h/2 + (image_h - screen_h))
 	return (x + w/2 , y + h/2)
-	#return (x, y)
 
 def start_compile():
 	result = pyautogui.locate('pic/compile_button.png', image)	
@@ -51,12 +48,13 @@ start_compile()
 
 WM.minimize_window('Quartus')
 
-# Wait for the compiler to start
+# Wait for the compiler to start, 5 min timeout
 time.sleep(5)
-timeout = time.time() + 60*5
+timeout = time.time() + 60 * 5
 
 while True:
 	(image, image_w, image_h) = WM.grab_window_image('Quartus')
+
 	if abs(image_w-screen_w) > 200:
 		print("Capture size error")		
 		break
@@ -69,6 +67,7 @@ while True:
 	if success:
 		print("Compile Success")
 		break
+
 	failed = is_compile_failed()
 	if failed:
 		print("Compile Error")
