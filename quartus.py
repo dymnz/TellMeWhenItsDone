@@ -5,27 +5,30 @@ from window_manager import window_manager
 
 def translate_to_center_cord(x, y, w, h):
 	# For some reason the y-cord needs to be compensated
-	#return (x + w/2 , y + h/2 - (image_h - screen_h))
-	return (x, y)
+	#return (x + w/2 , y + h/2 + (image_h - screen_h))
+	return (x + w/2 , y + h/2)
+	#return (x, y)
 
 def start_compile():
-	result = pyautogui.locate('compile_button.png', image)
+	result = pyautogui.locate('pic/compile_button.png', image)	
 	if result is None:
 		print("Cannot start compiling")
 		exit()
+
+	print(result)
 	(x, y, w, h) = result
 	(center_x, center_y) = translate_to_center_cord(x, y, w, h)
 	pyautogui.click(center_x, center_y)
 
 def is_compile_success():
-	result = pyautogui.locate('compile_complete.png', image)
+	result = pyautogui.locate('pic/compile_complete.png', image)
 	if result is not None:
 		print(result)
 		return True
 	return False
 
 def is_compile_failed():
-	result = pyautogui.locate('compile_error.png', image)
+	result = pyautogui.locate('pic/compile_error.png', image)
 	if result is not None:
 		print(result)
 		return True

@@ -36,7 +36,7 @@ class window_manager:
 
 		# Change the line below depending on whether you want the whole window
 		# or just the client area. 
-		#left, top, right, bot = win32gui.GetClientRect(hwnd)
+		#left, top, right, bot = win32gui.GetClientRect(self._hwnd)
 		left, top, right, bot = win32gui.GetWindowRect(self._hwnd)
 		w = right - left
 		h = bot - top
